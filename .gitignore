@@ -3,3 +3,7 @@ Pipfile
 __pycache__
  .pyc files
  .venv
+venv/
+*.pyc
+
+

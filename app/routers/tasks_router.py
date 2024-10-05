@@ -1,3 +1,15 @@
+"""
+Provides an API router for managing tasks.
+
+The `tasks_router` provides the following endpoints:
+
+- `POST /`: Create a new task.
+- `GET /{task_id}`: Retrieve a specific task by ID.
+- `GET /`: Retrieve a list of all tasks.
+- `PUT /{task_id}`: Update an existing task by ID.
+- `DELETE /{task_id}`: Delete a specific task by ID.
+- `DELETE /all`: Delete all tasks.
+"""
 from fastapi import APIRouter, HTTPException
 from models import Task, UpdateTaskModel, TaskList
 from db import db
@@ -36,3 +48,9 @@ async def update_task(task_id: int, task_update: UpdateTaskModel):
 async def delete_task(task_id: int):
     db.delete_task(task_id)
     return {"message": "Task deleted successfully"}
+
+
+@tasks_router.delete("/all")
+async def delete_all_tasks():
+    db.delete_all_tasks()
+    return {"message": "All tasks deleted successfully"}

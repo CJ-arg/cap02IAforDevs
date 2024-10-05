@@ -28,9 +28,12 @@ class FakeDB:
                     task.completed = task_update.completed
                 return task
         return None
-
     def delete_task(self, task_id: int):
         self.tasks = [task for task in self.tasks if task.id != task_id]
+    def delete_all_tasks(self):
+        self.tasks = []
+        return {"message": "All tasks deleted successfully"}
+
 
 
 db = FakeDB()
