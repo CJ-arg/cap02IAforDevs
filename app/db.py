@@ -10,14 +10,10 @@ class FakeDB:
         self.tasks.append(task)
         return task
 
-    def get_task(self, task_id: int):
-        task = next((task for task in self.tasks if task.id == task_id), None)
-        return task
+    def get_tasks(self, skip: int = 0, limit: int = 100):
+        return self.tasks[skip : skip + limit]
 
-    def get_tasks(self):
-        return self.tasks
-
-    def update_task(self, task_id: int, task_update):
+def update_task(self, task_id: int, task_update):
         for task in self.tasks:
             if task.id == task_id:
                 if task_update.title is not None:
@@ -28,9 +24,9 @@ class FakeDB:
                     task.completed = task_update.completed
                 return task
         return None
-    def delete_task(self, task_id: int):
+def delete_task(self, task_id: int):
         self.tasks = [task for task in self.tasks if task.id != task_id]
-    def delete_all_tasks(self):
+def delete_all_tasks(self):
         self.tasks = []
         return {"message": "All tasks deleted successfully"}
 

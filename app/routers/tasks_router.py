@@ -31,9 +31,10 @@ async def get_task(task_id: int):
 
 
 @tasks_router.get("/", response_model=TaskList)
-async def get_tasks():
-    tasks = db.get_tasks()
+async def get_tasks(skip: int = 0, limit: int = 100):
+    tasks = db.get_tasks(skip=skip, limit=limit)
     return TaskList(tasks=tasks)
+
 
 
 @tasks_router.put("/{task_id}", response_model=Task)
@@ -46,8 +47,11 @@ async def update_task(task_id: int, task_update: UpdateTaskModel):
 
 @tasks_router.delete("/{task_id}")
 async def delete_task(task_id: int):
-    db.delete_task(task_id)
+    success = db.delete_task(task_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Task not found")
     return {"message": "Task deleted successfully"}
+
 
 
 @tasks_router.delete("/all")
